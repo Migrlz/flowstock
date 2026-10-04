@@ -1,0 +1,43 @@
+# Local environment and credentials
+.env
+.env.*
+!.env*.example
+*.env
+!.env*.example
+.npmrc
+.pgpass
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+
+# Frontend dependencies and generated builds
+/frontend/node_modules/
+/frontend/dist/
+/frontend/dist-ssr/
+
+# Compiled Go binaries and test/coverage output
+/flowstock
+/flowstock.exe
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Editor and operating-system temporary files
+.idea/
+*.swp
+*.swo
+*.suo
+*.user
+*.tmp
+*.bak
+*.orig
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini
