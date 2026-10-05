@@ -1,5 +1,9 @@
 # FlowStock
 
+## Live Demo
+
+[Open FlowStock](YOUR_DEPLOYED_URL)
+
 ## Screenshot
 
 ![FlowStock dashboard](frontend/public/screenshot.png)
