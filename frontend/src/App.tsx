@@ -277,13 +277,9 @@ function App() {
         <header className="app-header" id="dashboard">
           <div className="app-header-inner">
             <div className="brand-lockup">
-              <div className="brand-mark" aria-hidden="true">
-                FS
-              </div>
               <div>
                 <p className="brand-kicker">WAREHOUSE OPERATIONS</p>
-                <h1>FlowStock</h1>
-                <p className="brand-subtitle">Inventory Management System</p>
+                <h1>Inventory workspace</h1>
               </div>
             </div>
 

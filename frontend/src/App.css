@@ -151,8 +151,8 @@
 }
 
 .planned-label {
-  color: #827968;
-  font-size: 9px;
+  color: #958c7c;
+  font-size: 8px;
   font-weight: 500;
   white-space: nowrap;
 }
@@ -187,9 +187,9 @@
 
 .app-header-inner {
   width: 100%;
-  min-height: 76px;
+  min-height: 62px;
   margin: 0;
-  padding: 12px 22px;
+  padding: 8px 22px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -202,24 +202,10 @@
   gap: 11px;
 }
 
-.brand-mark {
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  flex: 0 0 auto;
-  border: 1px solid #b6aa93;
-  background: #f6f1e6;
-  color: #625642;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-}
-
 .brand-kicker {
   margin: 0 0 1px;
   color: #766a55;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.12em;
 }
@@ -227,15 +213,9 @@
 .brand-lockup h1 {
   margin: 0;
   color: #302e29;
-  font-size: 23px;
+  font-size: 18px;
   font-weight: 650;
   line-height: 1.15;
-}
-
-.brand-subtitle {
-  margin: 2px 0 0;
-  color: #625d53;
-  font-size: 12px;
 }
 
 .primary-action,
@@ -279,8 +259,8 @@
 }
 
 .summary-card {
-  min-height: 76px;
-  padding: 10px 13px 9px;
+  min-height: 68px;
+  padding: 8px 11px 7px;
   border: 1px solid var(--line);
   border-top: 3px solid #b98943;
   background: var(--panel-bg);
@@ -296,7 +276,7 @@
 
 .summary-card span {
   display: block;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
   color: var(--muted);
   font-size: 10px;
   font-weight: 700;
@@ -605,6 +585,7 @@
 }
 
 .quantity-inline {
+  min-height: 26px;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -619,26 +600,33 @@
 }
 
 .low-stock {
+  min-height: 22px;
   display: inline-flex;
   align-items: center;
-  padding: 3px 5px;
+  padding: 2px 5px;
   border: 1px solid #d7c49f;
   border-left: 2px solid var(--warning);
   background: #fbf6ea;
   color: #785b2a;
   font-size: 10px;
   font-weight: 700;
+  line-height: 1;
 }
 
 .delete-action {
-  min-height: 25px;
-  padding: 4px 8px;
+  height: 26px;
+  min-height: 26px;
+  padding: 3px 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid #b26c63;
   border-radius: 2px;
   background: #fff8f7;
   color: var(--danger);
   font-size: 11px;
   font-weight: 700;
+  line-height: 1;
   cursor: pointer;
 }
 
@@ -728,9 +716,9 @@
 }
 
 .movement-heading {
-  min-height: 57px;
+  min-height: 52px;
   margin: 0;
-  padding: 10px 14px;
+  padding: 8px 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -742,7 +730,8 @@
 .movement-heading p {
   margin: 3px 0 0;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 10px;
+  line-height: 1.2;
 }
 
 .movement-product {
@@ -769,8 +758,8 @@
 
 .movement-message,
 .movement-empty {
-  margin: 12px 14px;
-  padding: 12px;
+  margin: 10px 12px;
+  padding: 10px;
   border: 1px solid #d1c8b8;
   border-radius: 2px;
   background: #f8f6f0;
@@ -896,13 +885,8 @@ select:focus-visible {
     gap: 10px;
   }
 
-  .brand-mark {
-    width: 42px;
-    height: 42px;
-  }
-
   .brand-lockup h1 {
-    font-size: 22px;
+    font-size: 18px;
   }
 
   .primary-action {
