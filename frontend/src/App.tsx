@@ -26,6 +26,7 @@ function App() {
   const [showForm, setShowForm] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
+  const [activeSection, setActiveSection] = useState('dashboard')
 
   // Load inventory when the page opens
   useEffect(() => {
@@ -57,6 +58,31 @@ function App() {
     }
 
     loadMovements()
+  }, [])
+
+  useEffect(() => {
+    const sections = document.querySelectorAll<HTMLElement>(
+      '#dashboard, #inventory, #movement-history'
+    )
+    const observer = new IntersectionObserver(
+      entries => {
+        const visibleSection = entries
+          .filter(entry => entry.isIntersecting)
+          .sort(
+            (first, second) =>
+              first.boundingClientRect.top - second.boundingClientRect.top
+          )[0]
+
+        if (visibleSection) {
+          setActiveSection(visibleSection.target.id)
+        }
+      },
+      { rootMargin: '-56px 0px -112px 0px', threshold: 0 }
+    )
+
+    sections.forEach(section => observer.observe(section))
+
+    return () => observer.disconnect()
   }, [])
 
   // CREATE
@@ -190,32 +216,90 @@ function App() {
 
   return (
     <div className="app-shell">
-      <header className="app-header">
-        <div className="app-header-inner">
-          <div className="brand-lockup">
-            <div className="brand-mark" aria-hidden="true">
-              FS
-            </div>
-            <div>
-              <p className="brand-kicker">WAREHOUSE OPERATIONS</p>
-              <h1>FlowStock</h1>
-              <p className="brand-subtitle">Inventory Management System</p>
-            </div>
-          </div>
-
-          <button
-            className="primary-action"
-            type="button"
-            aria-expanded={showForm}
-            aria-controls={showForm ? 'add-item-form' : undefined}
-            onClick={() => setShowForm(true)}
-          >
-            + Add Item
-          </button>
+      <aside className="app-sidebar" aria-label="Application navigation">
+        <div className="sidebar-brand">
+          <span className="sidebar-brand-mark" aria-hidden="true">FS</span>
+          <span className="sidebar-brand-copy">
+            <strong>FlowStock</strong>
+            <small>Warehouse system</small>
+          </span>
         </div>
-      </header>
 
-      <main className="page-content">
+        <p className="sidebar-caption">WORKSPACE</p>
+
+        <nav className="sidebar-nav" aria-label="Main navigation">
+          <a
+            className={`sidebar-link ${activeSection === 'dashboard' ? 'is-active' : ''}`}
+            href="#dashboard"
+            aria-current={activeSection === 'dashboard' ? 'location' : undefined}
+            onClick={() => setActiveSection('dashboard')}
+          >
+            <span className="sidebar-code" aria-hidden="true">DB</span>
+            <span>Dashboard</span>
+          </a>
+          <a
+            className={`sidebar-link ${activeSection === 'inventory' ? 'is-active' : ''}`}
+            href="#inventory"
+            aria-current={activeSection === 'inventory' ? 'location' : undefined}
+            onClick={() => setActiveSection('inventory')}
+          >
+            <span className="sidebar-code" aria-hidden="true">IN</span>
+            <span>Inventory</span>
+          </a>
+          <a
+            className={`sidebar-link ${activeSection === 'movement-history' ? 'is-active' : ''}`}
+            href="#movement-history"
+            aria-current={activeSection === 'movement-history' ? 'location' : undefined}
+            onClick={() => setActiveSection('movement-history')}
+          >
+            <span className="sidebar-code" aria-hidden="true">MV</span>
+            <span>Movement History</span>
+          </a>
+          <div className="sidebar-link sidebar-link--planned" aria-disabled="true">
+            <span className="sidebar-code" aria-hidden="true">RP</span>
+            <span>Reports</span>
+            <small className="planned-label">Planned</small>
+          </div>
+          <div className="sidebar-link sidebar-link--planned" aria-disabled="true">
+            <span className="sidebar-code" aria-hidden="true">ST</span>
+            <span>Settings</span>
+            <small className="planned-label">Planned</small>
+          </div>
+        </nav>
+
+        <div className="sidebar-footer">
+          <span className="sidebar-status-mark" aria-hidden="true" />
+          Local workspace
+        </div>
+      </aside>
+
+      <div className="app-main">
+        <header className="app-header" id="dashboard">
+          <div className="app-header-inner">
+            <div className="brand-lockup">
+              <div className="brand-mark" aria-hidden="true">
+                FS
+              </div>
+              <div>
+                <p className="brand-kicker">WAREHOUSE OPERATIONS</p>
+                <h1>FlowStock</h1>
+                <p className="brand-subtitle">Inventory Management System</p>
+              </div>
+            </div>
+
+            <button
+              className="primary-action"
+              type="button"
+              aria-expanded={showForm}
+              aria-controls={showForm ? 'add-item-form' : undefined}
+              onClick={() => setShowForm(true)}
+            >
+              + Add Item
+            </button>
+          </div>
+        </header>
+
+      <main className="page-content" id="main-content">
         <SummaryCards
           totalProducts={totalProducts}
           totalUnits={totalUnits}
@@ -232,6 +316,7 @@ function App() {
 
         <section
           className="inventory-section admin-panel"
+          id="inventory"
           aria-labelledby="inventory-heading"
         >
           <div className="section-titlebar">
@@ -303,6 +388,7 @@ function App() {
           error={movementError}
         />
       </main>
+      </div>
     </div>
   )
 }

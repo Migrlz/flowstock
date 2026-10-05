@@ -31,7 +31,11 @@ function MovementHistory({
   }
 
   return (
-    <section className="movement-section" aria-labelledby="movement-heading">
+    <section
+      className="movement-section"
+      id="movement-history"
+      aria-labelledby="movement-heading"
+    >
       <div className="movement-heading">
         <div>
           <h2 id="movement-heading">Movement History</h2>
