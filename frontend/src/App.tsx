@@ -18,6 +18,8 @@ import { getMovements } from './api/movements'
 
 function App() {
   const [items, setItems] = useState<Item[]>([])
+  const [isLoadingItems, setIsLoadingItems] = useState(true)
+  const [inventoryError, setInventoryError] = useState<string | null>(null)
   const [movements, setMovements] = useState<Movement[]>([])
   const [isLoadingMovements, setIsLoadingMovements] = useState(true)
   const [movementError, setMovementError] = useState<string | null>(null)
@@ -31,8 +33,13 @@ function App() {
       try {
         const data = await getItems()
         setItems(data)
+        setInventoryError(null)
       } catch {
-        alert('Could not load inventory')
+        setInventoryError(
+          'Inventory could not be loaded. Check your connection and refresh the page to try again.'
+        )
+      } finally {
+        setIsLoadingItems(false)
       }
     }
 
@@ -182,82 +189,121 @@ function App() {
   ).length
 
   return (
-    <main>
-      <header>
-        <div>
-          <h1>FlowStock</h1>
-          <p>Warehouse Inventory Management</p>
-        </div>
+    <div className="app-shell">
+      <header className="app-header">
+        <div className="app-header-inner">
+          <div className="brand-lockup">
+            <div className="brand-mark" aria-hidden="true">
+              FS
+            </div>
+            <div>
+              <p className="brand-kicker">WAREHOUSE OPERATIONS</p>
+              <h1>FlowStock</h1>
+              <p className="brand-subtitle">Inventory Management System</p>
+            </div>
+          </div>
 
-        <button onClick={() => setShowForm(true)}>
-          + Add Item
-        </button>
+          <button
+            className="primary-action"
+            type="button"
+            aria-expanded={showForm}
+            aria-controls={showForm ? 'add-item-form' : undefined}
+            onClick={() => setShowForm(true)}
+          >
+            + Add Item
+          </button>
+        </div>
       </header>
 
-      <SummaryCards
-        totalProducts={totalProducts}
-        totalUnits={totalUnits}
-        damagedItems={damagedItems}
-        lowStockItems={lowStockItems}
-      />
-
-      {showForm && (
-        <AddItemForm
-          onAdd={handleAddItem}
-          onCancel={() => setShowForm(false)}
-        />
-      )}
-
-      <section>
-        <h2>Inventory</h2>
-
-        <input
-          className="search-input"
-          placeholder="Search by product, barcode, location or status..."
-          value={searchTerm}
-          onChange={e =>
-            setSearchTerm(e.target.value)
-          }
+      <main className="page-content">
+        <SummaryCards
+          totalProducts={totalProducts}
+          totalUnits={totalUnits}
+          damagedItems={damagedItems}
+          lowStockItems={lowStockItems}
         />
 
-        <select
-          value={statusFilter}
-          onChange={e =>
-            setStatusFilter(e.target.value)
-          }
+        {showForm && (
+          <AddItemForm
+            onAdd={handleAddItem}
+            onCancel={() => setShowForm(false)}
+          />
+        )}
+
+        <section
+          className="inventory-section admin-panel"
+          aria-labelledby="inventory-heading"
         >
-          <option value="all">
-            All statuses
-          </option>
-          <option value="available">
-            Available
-          </option>
-          <option value="processing">
-            Processing
-          </option>
-          <option value="damaged">
-            Damaged
-          </option>
-          <option value="shipped">
-            Shipped
-          </option>
-        </select>
+          <div className="section-titlebar">
+            <h2 id="inventory-heading">Inventory</h2>
+            {!isLoadingItems && !inventoryError && (
+              <span className="record-count" aria-live="polite">
+                {filteredItems.length}{' '}
+                {filteredItems.length === 1 ? 'record' : 'records'}
+              </span>
+            )}
+          </div>
 
-        <InventoryTable
-          items={filteredItems}
-          updateStatus={updateStatus}
-          updateQuantity={updateQuantity}
-          deleteItem={deleteItem}
-          setItems={setItems}
+          <div className="inventory-toolbar">
+            <label className="toolbar-search" htmlFor="inventory-search">
+              Search inventory
+              <input
+                id="inventory-search"
+                className="search-input"
+                type="search"
+                placeholder="Product, barcode, location or status"
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+              />
+            </label>
+
+            <label className="toolbar-filter" htmlFor="status-filter">
+              Status
+              <select
+                id="status-filter"
+                value={statusFilter}
+                onChange={e => setStatusFilter(e.target.value)}
+              >
+                <option value="all">All statuses</option>
+                <option value="available">Available</option>
+                <option value="processing">Processing</option>
+                <option value="damaged">Damaged</option>
+                <option value="shipped">Shipped</option>
+              </select>
+            </label>
+          </div>
+
+          {isLoadingItems ? (
+            <p className="inventory-state" role="status">
+              Loading inventory...
+            </p>
+          ) : inventoryError ? (
+            <p className="inventory-state inventory-state--error" role="alert">
+              {inventoryError}
+            </p>
+          ) : (
+            <InventoryTable
+              items={filteredItems}
+              emptyMessage={
+                items.length > 0
+                  ? 'No items match the current search and status filter.'
+                  : 'No inventory items yet. Select Add Item to create the first record.'
+              }
+              updateStatus={updateStatus}
+              updateQuantity={updateQuantity}
+              deleteItem={deleteItem}
+              setItems={setItems}
+            />
+          )}
+        </section>
+
+        <MovementHistory
+          movements={movements}
+          isLoading={isLoadingMovements}
+          error={movementError}
         />
-      </section>
-
-      <MovementHistory
-        movements={movements}
-        isLoading={isLoadingMovements}
-        error={movementError}
-      />
-    </main>
+      </main>
+    </div>
   )
 }
 

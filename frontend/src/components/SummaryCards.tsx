@@ -12,7 +12,7 @@ function SummaryCards({
   lowStockItems,
 }: SummaryCardsProps) {
   return (
-    <div className="summary-cards">
+    <section className="summary-cards" aria-label="Inventory summary">
       <div className="summary-card">
         <span>Total Products</span>
         <strong>{totalProducts}</strong>
@@ -32,7 +32,7 @@ function SummaryCards({
         <span>Low Stock</span>
         <strong>{lowStockItems}</strong>
       </div>
-    </div>
+    </section>
   )
 }
 

@@ -31,10 +31,10 @@ function MovementHistory({
   }
 
   return (
-    <section className="movement-section">
+    <section className="movement-section" aria-labelledby="movement-heading">
       <div className="movement-heading">
         <div>
-          <h2>Movement History</h2>
+          <h2 id="movement-heading">Movement History</h2>
           <p>Recent inventory quantity changes</p>
         </div>
         {!isLoading && !error && (
@@ -62,18 +62,26 @@ function MovementHistory({
           </p>
         </div>
       ) : (
-        <div className="movement-table-wrap">
+        <div
+          className="movement-table-wrap"
+          role="region"
+          aria-label="Movement history table. Scroll horizontally to view all columns."
+          tabIndex={0}
+        >
           <table className="movement-table">
+            <caption className="visually-hidden">
+              Inventory movements, newest first.
+            </caption>
             <thead>
               <tr>
-                <th>Product</th>
-                <th>Barcode</th>
-                <th>Old quantity</th>
-                <th>New quantity</th>
-                <th>Change</th>
-                <th>Type</th>
-                <th>Note</th>
-                <th>Date / time</th>
+                <th scope="col">Product</th>
+                <th scope="col">Barcode</th>
+                <th scope="col">Old quantity</th>
+                <th scope="col">New quantity</th>
+                <th scope="col">Change</th>
+                <th scope="col">Type</th>
+                <th scope="col">Note</th>
+                <th scope="col">Date / time</th>
               </tr>
             </thead>
             <tbody>
@@ -91,14 +99,20 @@ function MovementHistory({
 
                 return (
                   <tr key={movement.ID}>
-                    <td className="movement-product">{movement.Name}</td>
+                    <th className="movement-product" scope="row">
+                      {movement.Name}
+                    </th>
                     <td>{movement.Barcode}</td>
                     <td>{movement.OldQuantity}</td>
                     <td>{movement.NewQuantity}</td>
                     <td className={changeClass}>{signedChange}</td>
                     <td>{movement.MovementType}</td>
                     <td>{movement.Note || '—'}</td>
-                    <td>{formatDate(movement.CreatedAt)}</td>
+                    <td>
+                      <time dateTime={movement.CreatedAt}>
+                        {formatDate(movement.CreatedAt)}
+                      </time>
+                    </td>
                   </tr>
                 )
               })}

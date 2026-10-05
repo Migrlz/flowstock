@@ -1,13 +1,27 @@
+:root {
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  color-scheme: light;
+}
+
 * {
   box-sizing: border-box;
 }
 
 html {
-  font-family: Inter, Arial, sans-serif;
+  min-height: 100%;
+  background: #f3f0e8;
 }
 
 body {
-  margin: 0;
-  min-width: 320px;
   min-height: 100vh;
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+button,
+input,
+select {
+  font: inherit;
 }

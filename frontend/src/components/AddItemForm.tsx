@@ -19,6 +19,7 @@ function AddItemForm({
   })
 
   const [saving, setSaving] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
 
   async function handleSubmit() {
     if (
@@ -38,80 +39,118 @@ function AddItemForm({
 
     try {
       setSaving(true)
+      setSaveError(null)
       await onAdd(newItem)
     } catch {
-      alert('Could not create item')
+      setSaveError(
+        'Item could not be saved. Check the required fields and make sure the barcode is unique.'
+      )
     } finally {
       setSaving(false)
     }
   }
 
   return (
-    <div className="add-form">
-      <h2>Add New Item</h2>
+    <div
+      className="add-form admin-panel"
+      id="add-item-form"
+      role="region"
+      aria-labelledby="add-form-title"
+    >
+      <div className="section-titlebar add-form-titlebar">
+        <div>
+          <h2 id="add-form-title">Add New Item</h2>
+          <p>Enter the item details for the inventory register.</p>
+        </div>
+      </div>
 
-      <input
-        placeholder="Product name"
-        value={newItem.Name}
-        onChange={e =>
-          setNewItem({
-            ...newItem,
-            Name: e.target.value,
-          })
-        }
-      />
+      <div className="form-fields">
+        <label className="form-field">
+          Product name
+          <input
+            placeholder="Product name"
+            value={newItem.Name}
+            onChange={e =>
+              setNewItem({
+                ...newItem,
+                Name: e.target.value,
+              })
+            }
+          />
+        </label>
 
-      <input
-        placeholder="Barcode"
-        value={newItem.Barcode}
-        onChange={e =>
-          setNewItem({
-            ...newItem,
-            Barcode: e.target.value,
-          })
-        }
-      />
+        <label className="form-field">
+          Barcode
+          <input
+            placeholder="Barcode"
+            value={newItem.Barcode}
+            onChange={e =>
+              setNewItem({
+                ...newItem,
+                Barcode: e.target.value,
+              })
+            }
+          />
+        </label>
 
-      <input
-        placeholder="Location"
-        value={newItem.Location}
-        onChange={e =>
-          setNewItem({
-            ...newItem,
-            Location: e.target.value,
-          })
-        }
-      />
+        <label className="form-field">
+          Location
+          <input
+            placeholder="Location"
+            value={newItem.Location}
+            onChange={e =>
+              setNewItem({
+                ...newItem,
+                Location: e.target.value,
+              })
+            }
+          />
+        </label>
 
-      <select
-        value={newItem.Status}
-        onChange={e =>
-          setNewItem({
-            ...newItem,
-            Status: e.target.value,
-          })
-        }
-      >
-        <option value="available">Available</option>
-        <option value="processing">Processing</option>
-        <option value="damaged">Damaged</option>
-        <option value="shipped">Shipped</option>
-      </select>
+        <label className="form-field">
+          Status
+          <select
+            value={newItem.Status}
+            onChange={e =>
+              setNewItem({
+                ...newItem,
+                Status: e.target.value,
+              })
+            }
+          >
+            <option value="available">Available</option>
+            <option value="processing">Processing</option>
+            <option value="damaged">Damaged</option>
+            <option value="shipped">Shipped</option>
+          </select>
+        </label>
 
-      <input
-        type="number"
-        min="0"
-        value={newItem.Quantity}
-        onChange={e =>
-          setNewItem({
-            ...newItem,
-            Quantity: Number(e.target.value),
-          })
-        }
-      />
+        <label className="form-field">
+          Quantity
+          <input
+            type="number"
+            min="0"
+            value={newItem.Quantity}
+            onChange={e =>
+              setNewItem({
+                ...newItem,
+                Quantity: Number(e.target.value),
+              })
+            }
+          />
+        </label>
+      </div>
 
-      <div>
+      {saveError && (
+        <p className="form-error" role="alert">
+          {saveError}
+        </p>
+      )}
+
+      <div className="form-actions">
         <button
+          className="form-submit"
+          type="button"
           onClick={handleSubmit}
           disabled={saving}
         >
@@ -119,6 +158,8 @@ function AddItemForm({
         </button>
 
         <button
+          className="form-cancel"
+          type="button"
           onClick={onCancel}
           disabled={saving}
         >
