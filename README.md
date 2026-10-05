@@ -1,9 +1,5 @@
 # FlowStock
 
-## Screenshot
-
-![FlowStock dashboard](frontend/public/screenshot.png)
-
 FlowStock is a full-stack inventory management portfolio project inspired by practical warehouse workflows. It helps a small warehouse team keep a clear record of products, stock levels, item status, and quantity changes in one place.
 
 The project focuses on common operational tasks: finding an item, editing its status or quantity, spotting low stock, and reviewing a reliable history of stock adjustments.
@@ -143,15 +139,15 @@ Replace the URL placeholders locally. The integration tests require a PostgreSQL
 
 ### Dashboard / Inventory
 
-Screenshot placeholder — add a dashboard and inventory screenshot here when available.
+![FlowStock Dashboard](frontend/public/dashboard.png)
 
 ### Add Item
 
-Screenshot placeholder — add an add-item form screenshot here when available.
+![FlowStock Add Item](frontend/public/add-item.png)
 
 ### Movement History
 
-Screenshot placeholder — add a movement-history screenshot here when available.
+Screenshot not available yet. Add a dedicated `movement-history.png` capture when one exists.
 
 ## Project structure
 
